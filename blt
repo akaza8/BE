@@ -1,1 +1,33 @@
 
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+contract Bank
+{
+  int bal;
+
+  constructor() 
+  {
+    bal=0;
+  }
+  function get_balance() view public returns(int)
+  {
+      return bal;
+  }
+
+  function withdraw(int amt) public
+  {
+    if(bal < amt)
+    {
+      bal;
+    }
+    else 
+    {
+      bal = bal-amt;
+    }
+    
+  }
+  function Deposit (int amt) public 
+  {
+     bal = bal+amt;
+  }
+}
