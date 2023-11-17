@@ -1,0 +1,58 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract DataContract {
+    // Define a structure to represent data
+    struct Data {
+        uint256 id;
+        string name;
+        uint256 value;
+    }
+
+    // Array to store instances of Data
+    Data[] public dataList;
+
+    // Counter for generating unique IDs
+    uint256 private counter;
+
+    // Event to log data creation
+    event DataCreated(uint256 id, string name, uint256 value);
+
+    // Fallback function to accept Ether
+    receive() external payable {
+        // You can perform any logic here when Ether is sent to the contract
+    }
+
+    // Function to create new data
+    function createData(string memory _name, uint256 _value) external {
+        // Increment counter to generate a unique ID
+        counter++;
+
+        // Create a new Data instance
+        Data memory newData = Data(counter, _name, _value);
+
+        // Add the new data to the array
+        dataList.push(newData);
+
+        // Emit an event to log data creation
+        emit DataCreated(counter, _name, _value);
+    }
+
+    // Function to get the total number of data entries
+    function getDataCount() external view returns (uint256) {
+        return dataList.length;
+    }
+
+    // Function to get data by ID
+    function getDataById(uint256 _id) external view returns (uint256, string memory, uint256) {
+        // Iterate through the array to find data with the specified ID
+        for (uint256 i = 0; i < dataList.length; i++) {
+            if (dataList[i].id == _id) {
+                return (dataList[i].id, dataList[i].name, dataList[i].value);
+            }
+        }
+
+        // Return default values if data with the specified ID is not found
+        return (0, "", 0);
+    }
+}
